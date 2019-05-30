@@ -1,26 +1,66 @@
 package com.example.graph;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Gallery;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.example.graph.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity implements VertexAnalyser {
     private LinearLayout.LayoutParams linearLayoutParams;
     private SparseGraph<Nodo,String> grafo;
+    private Canvas canvas;
+    private ArrayList<Nodo> nodi;
+
+    //private LinearLayout linearLayout;
+    private Bitmap bitmap;
+    private Bitmap operations;
+    private ImageView imageView;
+    private  BitmapDrawable ambp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
+        imageView = (ImageView) findViewById(R.id.mappa);
+        ambp = (BitmapDrawable) imageView.getDrawable();
+        bitmap = ambp.getBitmap();
+        nodi = new ArrayList<>();
 
+
+        /*
+        // Create a LinearLayout in which to add the ImageView
+        linearLayout = new LinearLayout(this);
+
+        // Instantiate an ImageView and define its properties
+        ImageView i = new ImageView(this);
+        i.setImageResource(R.drawable.mappa);
+
+        // set the ImageView bounds to match the Drawable's dimensions
+        i.setAdjustViewBounds(true);
+        i.setLayoutParams(new Gallery.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // Add the ImageView to the layout and set the layout as the content view
+        linearLayout.addView(i);
+        setContentView(linearLayout);
+*/
         linearLayoutParams =
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
+
 
         grafo = new SparseGraph<Nodo,String>();
         //System.out.println("vertici del grafo");
@@ -69,9 +109,24 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
     @Override
     public void analyse(Object vertex) {
         Nodo n = (Nodo) vertex;
-        //setContentView(new CustomView(this, n.getX(), n.getY()));
-        addContentView(new CustomView(this, n.getX(), n.getY()), linearLayoutParams);
-        addContentView(new CustomView2(this, n, grafo.neighbors(n)), linearLayoutParams);
+        nodi.add(n);
+
+        operations = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
+
+        canvas = new Canvas(operations);
+        canvas.drawBitmap(bitmap,0,0,null);
+        for(Nodo nod: nodi) {
+            int x = nod.getX();
+            int y = nod.getY();
+            Paint paint = new Paint();
+            paint.setColor(Color.GRAY);
+            canvas.drawCircle(x, y, 20, paint);
+            paint.setColor(Color.RED);
+            canvas.drawCircle(x, y, 15, paint);
+        }
+        imageView.setImageDrawable( new BitmapDrawable(getResources(),operations));
+       // addContentView(new CustomView(this, n.getX(), n.getY()), linearLayoutParams);
+        //addContentView(new CustomView2(this, n, grafo.neighbors(n)), linearLayoutParams);
 
         System.out.println(vertex);
     }
