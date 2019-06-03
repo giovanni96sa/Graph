@@ -1,4 +1,8 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.algorithms.search;
+
+import com.example.graph.giorgio.graph.stuffs.Graph;
+import com.example.graph.giorgio.graph.stuffs.SparseGraph;
+import com.example.graph.giorgio.graph.priorityqueue.HeapPriorityQueue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,12 +29,12 @@ public class MinPathDijkstra<V,E> {
 	 * @param d destination node
 	 * @return sequence of nodes that form the min path from s to d
 	 */
-	public ArrayList<Object> minPath(Graph<V,E> g,V s,V d){
+	public ArrayList<V> minPath(Graph<V,E> g, V s, V d){
 		
 		q = new HeapPriorityQueue<V>(g.vertices().size());
 		dist = new HashMap<V,Double>();
 		fathers = new HashMap<V,V>();
-		path = new ArrayList<Object>();
+		ArrayList<V> minPath = new ArrayList<V>();
 		
 		ArrayList<V> vertex = g.vertices();
 		for(V x:vertex){
@@ -59,14 +63,14 @@ public class MinPathDijkstra<V,E> {
 		step = d;
 		if(fathers.get(d)==null)
 			return null;
-		path.add(step);
+		minPath.add(step);
 		while(fathers.get(step)!=null){
 			if(step.equals(s)) break;
 			step = fathers.get(step);
-			path.add(step);
+			minPath.add(step);
 		}
-		Collections.reverse(path);
-		return path;
+		Collections.reverse(minPath);
+		return minPath;
 	}
 	
 	/**

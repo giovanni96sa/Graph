@@ -1,4 +1,7 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.algorithms.visit;
+
+import com.example.graph.giorgio.graph.stuffs.Graph;
+import com.example.graph.giorgio.graph.stuffs.VertexAnalyser;
 
 /**
  * interfaccia per la visita di un grafo, sono rese implementabili due tipologie principali (quelle studiate all'interno del corso):

@@ -8,11 +8,18 @@
 
     <ImageView
         android:id="@+id/mappa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@drawable/mappa"
         android:layout_centerInParent="true"
         tools:ignore="MissingConstraints" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mappa"
+        android:onClick="newRandomPath"
+        android:text="Genera un percorso casuale"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

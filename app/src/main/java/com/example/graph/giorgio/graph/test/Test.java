@@ -1,4 +1,8 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.test;
+
+import com.example.graph.giorgio.graph.algorithms.visit.GraphVisitImplements;
+import com.example.graph.giorgio.graph.stuffs.SparseGraph;
+import com.example.graph.giorgio.graph.stuffs.VertexAnalyserImplements;
 
 import java.io.IOException;
 

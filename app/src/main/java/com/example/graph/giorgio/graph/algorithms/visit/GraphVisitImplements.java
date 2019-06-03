@@ -1,4 +1,7 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.algorithms.visit;
+
+import com.example.graph.giorgio.graph.stuffs.Graph;
+import com.example.graph.giorgio.graph.stuffs.VertexAnalyser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

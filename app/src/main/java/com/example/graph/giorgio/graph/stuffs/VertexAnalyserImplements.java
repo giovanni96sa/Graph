@@ -1,6 +1,4 @@
-package com.example.graph;
-
-import android.support.v7.app.AppCompatActivity;
+package com.example.graph.giorgio.graph.stuffs;
 
 /**
  * This class implements the interface VertexAnalyser, that contain a method to analyze the vertex gived as parameter 

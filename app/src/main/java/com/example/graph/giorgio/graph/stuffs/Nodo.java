@@ -1,4 +1,4 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.stuffs;
 
 public class Nodo {
     private int x;

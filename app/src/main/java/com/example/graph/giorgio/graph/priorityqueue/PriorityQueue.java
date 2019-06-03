@@ -1,4 +1,4 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.priorityqueue;
 
 public interface PriorityQueue<V> {
 	boolean isEmpty();

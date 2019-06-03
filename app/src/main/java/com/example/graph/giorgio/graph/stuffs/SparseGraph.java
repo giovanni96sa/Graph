@@ -1,4 +1,4 @@
-package com.example.graph;
+package com.example.graph.giorgio.graph.stuffs;
 
 import java.io.FileWriter;
 import java.io.IOException;
