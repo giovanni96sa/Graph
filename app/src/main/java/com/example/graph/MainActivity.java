@@ -26,12 +26,10 @@ import java.util.Random;
 
 import static com.example.graph.R.layout.activity_main;
 
-public class MainActivity extends AppCompatActivity implements VertexAnalyser {
+public class MainActivity extends AppCompatActivity {
     private LinearLayout.LayoutParams linearLayoutParams;
     private Graph<Nodo,String> grafo;
     private Canvas canvas;
-
-    //private LinearLayout linearLayout;
     private Bitmap bitmap;
     private Bitmap operations;
     private ImageView imageView;
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
-
 
         grafo = new SparseGraph<Nodo,String>();
         nodes[0] = new Nodo(20,20);
@@ -84,32 +81,6 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
             listaNodi.add(nodes[i]);
         }
         drawGraph(grafo);
-        /*GraphVisitImplements<Nodo, String> gv = new GraphVisitImplements<Nodo, String>();
-        System.out.println("visita in profondit�");
-        gv.depthFirst(grafo, nodes[0], this);
-        System.out.println("visita in ampiezza");*/
-
-
-    }
-
-
-    @Override
-    public void analyse(Object vertex) {
-       /*Nodo n = (Nodo) vertex;
-
-        nodi.add(n);
-
-        operations = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
-
-        canvas = new Canvas(operations);
-        canvas.drawBitmap(bitmap,0,0,null);
-        for(Nodo nod: nodi) {
-            CustomView cv = new CustomView(this, nod);
-            cv.draw(canvas);
-        }
-        imageView.setImageDrawable( new BitmapDrawable(getResources(),operations));
-
-        System.out.println(vertex);*/
     }
 
     public void drawGraph(Graph<Nodo,String> graph){
@@ -138,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
         canvas.drawBitmap(bitmap,0,0,null);
 
         Nodo start = toDraw.get(0);
-        
+
         for(Nodo nod: toDraw) {
             CustomView cv = new CustomView(this, nod);
             cv.changeColor();
@@ -152,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
     }
 
    public void newRandomPath(View v) {
-
-
         MinPathDijkstra<Nodo,String> dijkstra = new MinPathDijkstra<Nodo, String>();
         Random rn = new Random();
         int destination = rn.nextInt(9)+1;
@@ -168,9 +137,5 @@ public class MainActivity extends AppCompatActivity implements VertexAnalyser {
         else{
             Toast.makeText(this,"Cammino non trovato!!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void clearImage(){
-
     }
 }
