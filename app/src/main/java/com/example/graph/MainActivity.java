@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             CustomView cv = new CustomView(this, nod);
             cv.changeColor();
             cv.draw(canvas);
+            System.out.println(start.toString()+"Secondo nodo: " +nod.toString());
             CustomViewEdge cve = new CustomViewEdge(this, start, nod );
             cve.draw(canvas);
             start = nod;
