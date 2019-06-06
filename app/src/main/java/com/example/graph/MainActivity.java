@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap operations;
     private ImageView imageView;
     private  BitmapDrawable ambp;
+    private InvioDati invio;
     private Nodo[] nodes = new Nodo[10];
 
     @Override
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
 
-     //   new InvioDati(this).execute("http://172.19.27.76/DemoWebBeacon/ricerca.php?codice=" +
-       //         codiceBiglietto + "&nome=" + nome + "&cognome=" + cognome);
+        invio = (InvioDati) new InvioDati(this).execute("http://172.19.30.222/DemoWebBeacon/caricaGrafo.php?piano=55");
+
         /*grafo = new SparseGraph<Nodo,String>();
         nodes[0] = new Nodo(20,20);
         nodes[1] = new Nodo(20,400);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             listaNodi.add(nodes[i]);
         }*/
 
-        drawGraph(grafo);
+
     }
 
     public void drawGraph(Graph<Nodo,String> graph){
@@ -129,19 +130,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void newRandomPath(View v) {
-        MinPathDijkstra<Nodo,String> dijkstra = new MinPathDijkstra<Nodo, String>();
-        Random rn = new Random();
-        int destination = rn.nextInt(9)+1;
+        if(!grafo.vertices().isEmpty()) {
+            ArrayList<Nodo> nodi = grafo.vertices();
+            MinPathDijkstra<Nodo, String> dijkstra = new MinPathDijkstra<Nodo, String>();
+            Random rn = new Random();
+            int destination = rn.nextInt(nodi.size() - 1) + 1;
+            grafo = invio.getGrafo();
 
-        ArrayList<Nodo> result = dijkstra.minPath(grafo, nodes[0], nodes[destination]);
-        if (result != null) {
 
-            Toast.makeText(this,"Cammino trovato!!", Toast.LENGTH_SHORT).show();
-            drawMinPath(result);
+            ArrayList<Nodo> result = dijkstra.minPath(grafo, nodi.get(0), nodi.get(destination));
+            if (result != null) {
 
+                Toast.makeText(this, "Cammino trovato!!", Toast.LENGTH_SHORT).show();
+                drawMinPath(result);
+
+            } else {
+                Toast.makeText(this, "Cammino non trovato!!", Toast.LENGTH_SHORT).show();
+            }
         }
         else{
-            Toast.makeText(this,"Cammino non trovato!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Carica prima il grafo!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void caricaGrafo(View v){
+        grafo = invio.getGrafo();
+        if(!grafo.vertices().isEmpty()) {
+
+            drawGraph(grafo);
+        }
+        else{
+            Toast.makeText(this, "Nessun grafo è stato caricato", Toast.LENGTH_SHORT).show();
         }
     }
 }

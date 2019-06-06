@@ -6,6 +6,11 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.widget.Toast;
 
+import com.example.graph.giorgio.graph.stuffs.Graph;
+import com.example.graph.giorgio.graph.stuffs.Nodo;
+import com.example.graph.giorgio.graph.stuffs.SparseGraph;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,10 +24,12 @@ import java.net.URL;
 
 public class InvioDati extends AsyncTask<String,Void,String> {
     private Context context;
+    private SparseGraph<Nodo,String> grafo;
 
 
     public InvioDati(Context context){
         this.context = context;
+        this.grafo = new SparseGraph<Nodo,String>();
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -45,19 +52,37 @@ public class InvioDati extends AsyncTask<String,Void,String> {
     }
     @Override
     protected void onPostExecute(String result) {
-        String ce = "";
+
         try {
-            JSONObject jObject = new JSONObject(result);
-            ce = jObject.getString("ce");
+
+            JSONArray array = new JSONArray(result);
+            for(int i = 0; i < array.length(); i++)
+            {
+                JSONObject object = array.getJSONObject(i);
+
+                int x1 =Integer.parseInt(object.get("X1").toString());
+                int y1 =Integer.parseInt(object.get("Y1").toString());
+                int x2 =Integer.parseInt(object.get("X2").toString());
+                int y2 =Integer.parseInt(object.get("Y2").toString());
+
+                Nodo n1 = new Nodo(x1,y1);
+                Nodo n2 = new Nodo(x2,y2);
+
+                grafo.addVertex(n1);
+                grafo.addVertex(n2);
+
+                grafo.addEdge(n1,n2,"");
+
+
+
+            }
+            for(Nodo n : grafo.vertices()){
+                System.out.println(n.toString());
+            }
+            System.out.println(grafo.vertices().size());
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-        if(ce.equals("SI")) {
-            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(context, "l'utente non è presente", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -74,5 +99,9 @@ public class InvioDati extends AsyncTask<String,Void,String> {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    public Graph<Nodo,String> getGrafo(){
+        return grafo;
     }
 }

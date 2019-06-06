@@ -45,6 +45,7 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 		if(!nodes.contains(vertex)){
 			nodes.add(vertex);
 			n++;
+
 			ArrayList<E> neighbors = new ArrayList<E>();
 			edges.put(vertex,(ArrayList<E>) neighbors);
 			return true;
@@ -61,7 +62,6 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 * @param v1 the source vertex
 	 * @param v2 the vertex adjacent to v1
 	 * @param info information about the edge, it can be null
-	 * @exception IllegalArgumentException if one of both the edges are null.
 	 * @return true if the edge is successful added, false if not
 	 */
 	@Override
@@ -71,7 +71,13 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 			if(!nodes.contains(v1)) addVertex(v1);
 			if(!nodes.contains(v2)) addVertex(v2);
 			Edge<V,E> a = new Edge<V, E>(info,v1,v2);
+
 			ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(v1);
+
+			if(neighbors == null){
+				System.out.println("La chiave di questo maiale di dio non ci sta" + edges.containsKey(v1));
+				System.out.println("neighbors è nullo sul nodo"+v1.toString());
+			}
 			neighbors.add(a);
 			m++;
 			return true;
@@ -88,7 +94,6 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 * @param v2 the vertex adjacent to v1
 	 * @param weight the weight of the edge
 	 * @param info information about the edge, it can be null
-	 * @exception IllegalArgumentException if one of both the edges are null.
 	 * @return true if the edge is successful added, false if not
 	 */
 	@Override 

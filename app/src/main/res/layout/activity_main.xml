@@ -14,9 +14,19 @@
         android:layout_centerInParent="true"
         tools:ignore="MissingConstraints" />
     <Button
+        android:id="@+id/inviodati"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mappa"
+        android:onClick="caricaGrafo"
+        android:background="@android:color/holo_green_dark"
+        android:text="Carica Grafo"
+        android:layout_centerHorizontal="true"/>
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inviodati"
+            android:background="@android:color/holo_orange_dark"
         android:onClick="newRandomPath"
         android:text="Genera un percorso casuale"
         android:layout_centerHorizontal="true"/>

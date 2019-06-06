@@ -1,5 +1,7 @@
 package com.example.graph.giorgio.graph.stuffs;
 
+import java.util.Objects;
+
 public class Nodo {
     private int x;
     private int y;
@@ -12,6 +14,26 @@ public class Nodo {
     public void setY(int y) {
         this.y = y;
     }
+
+    /*@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Nodo other = (Nodo) obj;
+        if (x == other.getX() && y == other.getY()) {
+            return true;
+        }
+        return false;
+    }*/
+
+
 
     public int getY() {
         return y;

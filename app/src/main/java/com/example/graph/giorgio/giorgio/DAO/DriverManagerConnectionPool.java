@@ -13,9 +13,9 @@ import java.util.List;
 public class DriverManagerConnectionPool {
 	private static DriverManagerConnectionPool istanza = null;
 	private static List<Connection> freeDbConnections;
-	private static final String url = "jdbc:mysql://192.168.1.174:3306/progettonave";
+	private static final String url = "jdbc:mysql://172.19.30.222:3306/progettonave";
 	private static final String user = "root";
-	private static final String password = "";
+	private static final String password = "password";
 
 	
 	private DriverManagerConnectionPool()
@@ -46,6 +46,7 @@ public class DriverManagerConnectionPool {
 	{
 		Connection newConnection = null;
 		newConnection = DriverManager.getConnection(url, user, password);
+		//newConnection = DriverManager.getConnection("jdbc:mysql://172.19.30.222:3306/progettonave?user=root&password=");
 		newConnection.setAutoCommit(false);
 		return newConnection;
 	}
