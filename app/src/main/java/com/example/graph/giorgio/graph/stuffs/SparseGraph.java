@@ -242,7 +242,19 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 		for(Edge<V,E> a : neighbors)
 			System.out.println("initial: "+a.getIn()+" final: "+a.getOut()+" info: "+a.getInfo());
 	}
-	
+
+	public ArrayList<Edge> getAllEdges(){
+		ArrayList<Edge> AllEdges = new ArrayList<>();
+		for(V v: vertices()) {
+			ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(v);
+			for(Edge<V,E> a : neighbors)
+			{
+				AllEdges.add(a);
+			}
+		}
+		return AllEdges;
+	}
+
 	public void toDot(String GraphName) throws IOException{
 		String Graph = GraphName+".dot";
 	  FileWriter outFile = new FileWriter(Graph, false);

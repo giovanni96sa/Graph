@@ -86,6 +86,8 @@ public interface Graph<V, E> {
 	 * @return ArrayList of vertices
 	 */
 	ArrayList<V> vertices();
+
+	ArrayList<Edge> getAllEdges();
 	
 	/**
 	 * return the adjacent vertices of a vertex

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.graph.giorgio.customs.CustomView;
 import com.example.graph.giorgio.customs.CustomViewEdge;
+import com.example.graph.giorgio.giorgio.DAO.GraphDAO;
 import com.example.graph.giorgio.graph.algorithms.search.MinPathDijkstra;
 import com.example.graph.giorgio.graph.algorithms.visit.GraphVisitImplements;
 import com.example.graph.giorgio.graph.stuffs.Graph;
@@ -21,6 +22,7 @@ import com.example.graph.giorgio.graph.stuffs.Nodo;
 import com.example.graph.giorgio.graph.stuffs.SparseGraph;
 import com.example.graph.giorgio.graph.stuffs.VertexAnalyser;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        grafo = new SparseGraph<Nodo,String>();
+     //   new InvioDati(this).execute("http://172.19.27.76/DemoWebBeacon/ricerca.php?codice=" +
+       //         codiceBiglietto + "&nome=" + nome + "&cognome=" + cognome);
+        /*grafo = new SparseGraph<Nodo,String>();
         nodes[0] = new Nodo(20,20);
         nodes[1] = new Nodo(20,400);
         nodes[2] = new Nodo(20,800);
@@ -79,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Nodo> listaNodi = new ArrayList<>();
         for (int i = 0; i <10; i ++){
             listaNodi.add(nodes[i]);
-        }
+        }*/
+
         drawGraph(grafo);
     }
 

@@ -65,6 +65,11 @@ public class DenseGraph implements Graph{
 	}
 
 	@Override
+	public ArrayList<Edge> getAllEdges() {
+		return null;
+	}
+
+	@Override
 	public ArrayList neighbors(Object vertex) {
 		// TODO Auto-generated method stub
 		return null;
