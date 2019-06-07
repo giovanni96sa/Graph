@@ -15,7 +15,7 @@ public class Nodo {
         this.y = y;
     }
 
-    /*@Override
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -27,11 +27,9 @@ public class Nodo {
             return false;
         }
         Nodo other = (Nodo) obj;
-        if (x == other.getX() && y == other.getY()) {
-            return true;
-        }
-        return false;
-    }*/
+
+        return x == other.x && y == other.y;
+    }
 
 
 

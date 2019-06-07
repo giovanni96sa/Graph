@@ -55,6 +55,12 @@ public class Edge <V,E> {
 		this.weight = weight;
 	}
 
+
+	@Override
+	public String toString() {
+		return "In: " +this.in + "Out:" +this.out;
+	}
+
 	double getWeight(){
 		return weight;
 	}

@@ -1,6 +1,5 @@
 package com.example.graph.giorgio.graph.stuffs;
 
-import java.io.IOException;
 import java.util.ArrayList;
 /**
  * interface to create the graph
@@ -42,7 +41,6 @@ public interface Graph<V, E> {
 	 *add the undirected edge v1->v2 if it is not present in the graph 
 	 * @param v1 source vertex
 	 * @param v2 destination vertex
-	 * @param weight weight of the edge
 	 * @param info information about the edge
 	 * @return true if it is correctly inserted, else false (edge present).
 	 */
@@ -87,7 +85,7 @@ public interface Graph<V, E> {
 	 */
 	ArrayList<V> vertices();
 
-	ArrayList<Edge> getAllEdges();
+	ArrayList<Edge<V,E>> getAllEdges();
 	
 	/**
 	 * return the adjacent vertices of a vertex
@@ -97,10 +95,5 @@ public interface Graph<V, E> {
 	 */
 	ArrayList<V> neighbors(V vertex);
 	
-	/**
-	 * 
-	 * @param string path and name of file that tou want to create
-	 * @throws IOException
-	 */
-	void toDot(String string) throws IOException;
+
 }

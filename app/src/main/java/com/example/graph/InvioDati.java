@@ -56,30 +56,30 @@ public class InvioDati extends AsyncTask<String,Void,String> {
         try {
 
             JSONArray array = new JSONArray(result);
-            for(int i = 0; i < array.length(); i++)
-            {
+            for(int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
 
-                int x1 =Integer.parseInt(object.get("X1").toString());
-                int y1 =Integer.parseInt(object.get("Y1").toString());
-                int x2 =Integer.parseInt(object.get("X2").toString());
-                int y2 =Integer.parseInt(object.get("Y2").toString());
+                int x1 = Integer.parseInt(object.get("X1").toString()) * 3;
+                int y1 = Integer.parseInt(object.get("Y1").toString()) * 3;
+                int x2 = Integer.parseInt(object.get("X2").toString()) * 3;
+                int y2 = Integer.parseInt(object.get("Y2").toString()) * 3;
 
-                Nodo n1 = new Nodo(x1,y1);
-                Nodo n2 = new Nodo(x2,y2);
+                Nodo n1 = new Nodo(x1, y1);
+                Nodo n2 = new Nodo(x2, y2);
 
-                grafo.addVertex(n1);
-                grafo.addVertex(n2);
+                /*grafo.addVertex(n1);
+                grafo.addVertex(n2);*/
 
-                grafo.addEdge(n1,n2,"");
-
-
+                grafo.addUndirectedEdge(n1,n2,"");
 
             }
+
             for(Nodo n : grafo.vertices()){
                 System.out.println(n.toString());
             }
             System.out.println(grafo.vertices().size());
+
+            System.out.println(grafo.getAllEdges().size());
 
         } catch (JSONException e) {
             e.printStackTrace();

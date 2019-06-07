@@ -15,8 +15,8 @@ import java.util.HashMap;
  * @param <E> generic type to represent the information about the edges of the graph
  */
 public class SparseGraph<V,E> implements Graph<V,E>{
-	ArrayList<V> nodes;	
-	HashMap<V,ArrayList<E>> edges;
+	private ArrayList<V> nodes;
+	private ArrayList<Edge<V,E>> archi;
 	int n;
 	int m;
 	
@@ -29,7 +29,7 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 */
 	public SparseGraph(){
 		nodes = new ArrayList<V>();
-		edges = new HashMap<V,ArrayList<E>>();
+		archi = new ArrayList<Edge<V,E>>();
 		n = 0;
 		m = 0;
 	}
@@ -45,12 +45,9 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 		if(!nodes.contains(vertex)){
 			nodes.add(vertex);
 			n++;
-
-			ArrayList<E> neighbors = new ArrayList<E>();
-			edges.put(vertex,(ArrayList<E>) neighbors);
+			ArrayList<Edge<V,E>> neighbors = new ArrayList<Edge<V,E>>();
 			return true;
 		}
-		
 		return false;
 	}
 
@@ -66,23 +63,13 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 */
 	@Override
 	public boolean addEdge(V v1, V v2, E info) {
-		if(v1 == null || v2 == null ) throw new IllegalArgumentException("The node can't be null");
-		if(nodes.contains(v1)){
-			if(!nodes.contains(v1)) addVertex(v1);
-			if(!nodes.contains(v2)) addVertex(v2);
-			Edge<V,E> a = new Edge<V, E>(info,v1,v2);
+		if(!nodes.contains(v1)) addVertex(v1);
+		if(!nodes.contains(v2)) addVertex(v2);
+		Edge<V,E> a = new Edge<V,E>(info,v1,v2);
+		archi.add(a);
 
-			ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(v1);
-
-			if(neighbors == null){
-				System.out.println("La chiave di questo maiale di dio non ci sta" + edges.containsKey(v1));
-				System.out.println("neighbors è nullo sul nodo"+v1.toString());
-			}
-			neighbors.add(a);
-			m++;
-			return true;
-		}
-		return false;
+		m++;
+		return true;
 	}
 
 	/**
@@ -103,9 +90,7 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 			if(!nodes.contains(v1)) addVertex(v1);
 			if(!nodes.contains(v2)) addVertex(v2);
 			Edge<V,E> a = new Edge<V, E>(info,v1,v2,weight);
-		
-			ArrayList<Edge<V,E>> neighbors = (ArrayList<Edge<V,E>>)edges.get(v1);
-			neighbors.add(a);
+			archi.add(a);
 			m++;
 			return true;
 		}
@@ -124,8 +109,9 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 */
 	@Override
 	public boolean addUndirectedEdge(V v1, V v2, E info) {
-		if(addEdge(v1,v2,info) || addEdge(v2,v1,info)) return true;
-		else return false;
+		addEdge(v1,v2,info);
+		addEdge(v2,v1,info);
+		return true;
 	}
 
 
@@ -168,9 +154,12 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	public boolean hasEdge(V v1, V v2) {
 		if(nodes.contains(v1)){
 			if(nodes.contains(v2)){
-				ArrayList<Edge<V,E>> neighbors = (ArrayList<Edge<V,E>>)edges.get(v1);
-				if(neighbors.contains(new Edge(v1,v2)));
-				return true;
+				for(Edge<V,E> arco: archi){
+					if(arco.getIn().equals(v1) && arco.getOut().equals(v2))
+					{
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -204,15 +193,19 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 */
 	@Override
 	public ArrayList<V> neighbors(V vertex) {
-	if(nodes.contains(vertex)){
-		ArrayList<V> neighbors = new ArrayList<V>();
-		ArrayList<Edge> arch = (ArrayList<Edge>)edges.get(vertex);
-	
-		for(Edge a: arch)
-		neighbors.add((V) a.getOut());
-		return neighbors;
-	}
-	return null;
+		if(nodes.contains(vertex)){
+			ArrayList<V> neighbors = new ArrayList<V>();
+
+			for(Edge<V,E> edge: archi)
+			{
+				if (edge.getIn().equals(vertex))
+				{
+					neighbors.add(edge.getOut());
+				}
+			}
+			return neighbors;
+		}
+		return null;
 	}
 	
 	/**
@@ -222,10 +215,9 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 	 * @param dest destination of the Edge source -> dest
 	 * @return true if the is present Edge source --> dest, null otherwise
 	 */
-	public Edge getEdge(V source, V dest){
-		ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(source);
-		Edge find = new Edge(source,dest);
-		for(Edge<V,E> a : neighbors){
+	public Edge<V,E> getEdge(V source, V dest){
+		Edge<V,E> find = new Edge<V,E>(source,dest);
+		for(Edge<V,E> a : archi){
 			if((a.getOut().equals(find.getOut()))&&(a.getIn().equals(find.getIn())))
 				return a;
 		}
@@ -238,40 +230,12 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 		for(V i : nodes)
 			System.out.println(i);
 	}
-	/**
-	 *print the adjacent list of a certain vertex passed as parameter
-	 * @param vertex 
-	 */
-	public void printNeighbors(V vertex){
-		ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(vertex);
-		for(Edge<V,E> a : neighbors)
-			System.out.println("initial: "+a.getIn()+" final: "+a.getOut()+" info: "+a.getInfo());
+
+
+
+	public ArrayList<Edge<V,E>> getAllEdges(){
+		return archi;
 	}
 
-	public ArrayList<Edge> getAllEdges(){
-		ArrayList<Edge> AllEdges = new ArrayList<>();
-		for(V v: vertices()) {
-			ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(v);
-			for(Edge<V,E> a : neighbors)
-			{
-				AllEdges.add(a);
-			}
-		}
-		return AllEdges;
-	}
 
-	public void toDot(String GraphName) throws IOException{
-		String Graph = GraphName+".dot";
-	  FileWriter outFile = new FileWriter(Graph, false);
-	  PrintWriter out = new PrintWriter(outFile);
-	  out.println("digraph "+GraphName+"{");
-	  for(V i : nodes){
-	  	ArrayList<Edge> neighbors = (ArrayList<Edge>)edges.get(i);
-			for(Edge<V,E> a : neighbors){
-				out.println(a.getIn()+" -> "+a.getOut()+";");
-			}
-	  }
-	  out.println("}");
-	  out.close();
-	}
 }

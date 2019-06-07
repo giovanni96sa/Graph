@@ -50,13 +50,19 @@ public class MinPathDijkstra<V,E> {
 		while(!q.isEmpty()){
 			V u = q.extractfirst();
 			for(V v:g.neighbors(u)){
+
 				double weight = g.getWeight(u, v);
-					double distanceThrought = dist.get(u)+weight;
-					if(distanceThrought<dist.get(v)){
-						dist.put(v, distanceThrought);
-						fathers.put(v, u);
-						q.decreasePriority(v, dist.get(v));
-					}
+				double distanceThrought = dist.get(u)+weight;
+				if(dist.get(v)==null){
+					dist.put(v,Double.POSITIVE_INFINITY);
+				}
+
+				System.out.println("E se fosse null: "+v +"Si sono io"+dist.get(v));
+				if(distanceThrought<dist.get(v)){
+					dist.put(v, distanceThrought);
+					fathers.put(v, u);
+					q.decreasePriority(v, dist.get(v));
+				}
 			}
 		}
 		V step;

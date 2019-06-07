@@ -36,14 +36,17 @@ public class CustomViewEdge extends View {
         paint = new Paint();
         corner = new Paint();
         corner.setColor(Color.BLACK);
+        corner.setStrokeWidth(15);
         paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(15);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         //drawTriangle(canvas,n1.getX(),n1.getY(), Color.GREEN);
-        drawSequenceOfPoints(canvas,n1.getX(),n1.getY(),n2.getX(),n2.getY());
-        //canvas.drawLine(n1.getX(),n1.getY(),n2.getX(),n2.getY(),paint);
+
+        //drawSequenceOfPoints(canvas,n1.getX(),n1.getY(),n2.getX(),n2.getY());
+        canvas.drawLine(n1.getX(),n1.getY(),n2.getX(),n2.getY(),paint);
 
     }
 
@@ -70,12 +73,7 @@ public class CustomViewEdge extends View {
     }*/
 
     private void drawSequenceOfPoints(Canvas canvas, int x1, int y1, int x2, int y2){
-
         int temp = 0;
-
-
-
-
         if(x1 == x2){
             if(y1>y2 ){
                 temp = y1;
@@ -122,7 +120,8 @@ public class CustomViewEdge extends View {
             while (x<x2-30){
                 float y = findY(x,x1,y1,xDifference,yDifference);
 
-                //System.out.println("La Y vale: "+y);
+                System.out.println("La X vale: "+x);
+                System.out.println("La Y vale: "+y);
                 x += 50;
 
                 canvas.drawCircle(x,y,15,corner);

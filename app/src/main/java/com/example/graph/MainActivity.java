@@ -2,8 +2,6 @@ package com.example.graph;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,15 +12,11 @@ import android.widget.Toast;
 
 import com.example.graph.giorgio.customs.CustomView;
 import com.example.graph.giorgio.customs.CustomViewEdge;
-import com.example.graph.giorgio.giorgio.DAO.GraphDAO;
 import com.example.graph.giorgio.graph.algorithms.search.MinPathDijkstra;
-import com.example.graph.giorgio.graph.algorithms.visit.GraphVisitImplements;
+import com.example.graph.giorgio.graph.stuffs.Edge;
 import com.example.graph.giorgio.graph.stuffs.Graph;
 import com.example.graph.giorgio.graph.stuffs.Nodo;
-import com.example.graph.giorgio.graph.stuffs.SparseGraph;
-import com.example.graph.giorgio.graph.stuffs.VertexAnalyser;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        invio = (InvioDati) new InvioDati(this).execute("http://172.19.30.222/DemoWebBeacon/caricaGrafo.php?piano=55");
+        invio = (InvioDati) new InvioDati(this).execute("http://172.19.21.202/DemoWebBeacon/caricaGrafo.php?piano=55");
 
         /*grafo = new SparseGraph<Nodo,String>();
         nodes[0] = new Nodo(20,20);
@@ -98,9 +92,10 @@ public class MainActivity extends AppCompatActivity {
         for (Nodo nod: nodi) {
             CustomView cv = new CustomView(this, nod);
             cv.draw(canvas);
-            ArrayList<Nodo> neighbors = graph.neighbors(nod);
-            for (Nodo vicini : neighbors){
-                CustomViewEdge cve = new CustomViewEdge(this,nod,vicini);
+            ArrayList<Edge<Nodo,String>> archi = graph.getAllEdges();
+            for (Edge e : archi){
+
+                CustomViewEdge cve = new CustomViewEdge(this, (Nodo) e.getIn(), (Nodo) e.getOut());
                 cve.draw(canvas);
             }
         }
