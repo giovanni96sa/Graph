@@ -202,6 +202,9 @@ public class SparseGraph<V,E> implements Graph<V,E>{
 				{
 					neighbors.add(edge.getOut());
 				}
+				/*else if(edge.getOut().equals(vertex)){
+					neighbors.add(edge.getIn());
+				}*/
 			}
 			return neighbors;
 		}

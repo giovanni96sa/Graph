@@ -18,8 +18,9 @@ import java.util.Map;
  */
 public class MinPathDijkstra<V,E> {
 	HeapPriorityQueue<V> q;
-	HashMap<V,Double> dist;
-	Map<V,V> fathers;
+	HashMap<String,Double> dist;
+	HashMap<String, V> vertici;
+	HashMap<String,V> fathers;
 	ArrayList<Object> path;
 	
 	/**
@@ -32,53 +33,60 @@ public class MinPathDijkstra<V,E> {
 	public ArrayList<V> minPath(Graph<V,E> g, V s, V d){
 		
 		q = new HeapPriorityQueue<V>(g.vertices().size());
-		dist = new HashMap<V,Double>();
-		fathers = new HashMap<V,V>();
+		dist = new HashMap<String,Double>();
+		fathers = new HashMap<String, V>();
 		ArrayList<V> minPath = new ArrayList<V>();
 		
 		ArrayList<V> vertex = g.vertices();
 		for(V x:vertex){
-			dist.put(x,Double.POSITIVE_INFINITY);
-			fathers.put(x,null);
+			dist.put(x.toString(),Double.POSITIVE_INFINITY);
+			fathers.put(x.toString(),null);
 		}
-		fathers.put(s, s);
-		dist.put(s, 0.0);
+		fathers.put(s.toString(), s);
+		dist.put(s.toString(), 0.0);
 		for(V x:vertex){
-			q.insert(x, dist.get(x));
+			q.insert(x, dist.get(x.toString()));
 		}
 
 		while(!q.isEmpty()){
 			V u = q.extractfirst();
 			for(V v:g.neighbors(u)){
 
+				System.out.println("Questi sono i vicini di "+ u+ ": "+g.neighbors(u));
 				double weight = g.getWeight(u, v);
-				double distanceThrought = dist.get(u)+weight;
-				if(dist.get(v)==null){
-					dist.put(v,Double.POSITIVE_INFINITY);
-				}
+				double distanceThrought = dist.get(u.toString())+weight;
 
-				System.out.println("E se fosse null: "+v +"Si sono io"+dist.get(v));
-				if(distanceThrought<dist.get(v)){
-					dist.put(v, distanceThrought);
-					fathers.put(v, u);
-					q.decreasePriority(v, dist.get(v));
+				System.out.println("E se fosse null: "+v +"Si sono io"+v+"  "+dist.get(v));
+				System.out.println(dist.containsKey(v));
+
+
+				if(distanceThrought<dist.get(v.toString())){
+					dist.put(v.toString(), distanceThrought);
+					fathers.put(v.toString(), u);
+
+					q.decreasePriority(v, dist.get(v.toString()));
+
 				}
 			}
 		}
+		System.out.println(dist);
 		V step;
 		step = d;
-		if(fathers.get(d)==null)
+		System.out.println("Questo è l'has dei padriS"+fathers);
+		if(fathers.get(d.toString())==null)
 			return null;
 		minPath.add(step);
-		while(fathers.get(step)!=null){
-			if(step.equals(s)) break;
-			step = fathers.get(step);
+		while(fathers.get(step.toString())!=null){
+			if(step.toString().equals(s.toString())) break;
+			step = fathers.get(step.toString());
 			minPath.add(step);
+			System.out.println(step);
 		}
+		System.out.println(minPath);
 		Collections.reverse(minPath);
 		return minPath;
 	}
-	
+
 	/**
 	 * Dijkstra to find a min path from a source node s to the others nodes of an input graph
 	 * @param g graph in input
@@ -87,18 +95,18 @@ public class MinPathDijkstra<V,E> {
 	 */
 	public Graph<V,E> minPath(Graph<V,E> g,V s){
 		q = new HeapPriorityQueue<V>(g.vertices().size());
-		dist = new HashMap<V,Double>();
-		fathers = new HashMap<V,V>();
+		dist = new HashMap<String, Double>();
+		fathers = new HashMap<String, V>();
 		path = new ArrayList<Object>();
 		Graph<V,E> minPath = new SparseGraph<V,E>();
 		
 		ArrayList<V> vertex = g.vertices();
 		for(V x:vertex){
-			dist.put(x,Double.POSITIVE_INFINITY);
-			fathers.put(x,null);
+			dist.put(x.toString(),Double.POSITIVE_INFINITY);
+			fathers.put(x.toString(),null);
 		}
-		fathers.put(s, s);
-		dist.put(s, 0.0);
+		fathers.put(s.toString(), s);
+		dist.put(s.toString(), 0.0);
 		for(V x:vertex){
 			q.insert(x, dist.get(x));
 		}
@@ -109,12 +117,12 @@ public class MinPathDijkstra<V,E> {
 				double weight = g.getWeight(u, v);
 					double distanceThrought = dist.get(u)+weight;//distanza del padre + la sua distanza
 					if(distanceThrought<dist.get(v)){//se il costo � inferiore al nodo attuale
-						dist.put(v, distanceThrought);
+						dist.put(v.toString(), distanceThrought);
 						if(!(minPath.vertices().contains(v))) minPath.addVertex(v);
 						if(!(minPath.vertices().contains(u))) minPath.addVertex(u);
 						E info = null;
 						minPath.addEdge(v, u,info);
-						fathers.put(v, u);
+						fathers.put(v.toString(), u);
 						q.decreasePriority(v, dist.get(v));
 					}
 			}

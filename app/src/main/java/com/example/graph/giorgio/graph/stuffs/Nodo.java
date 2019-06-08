@@ -17,6 +17,7 @@ public class Nodo {
 
     @Override
     public boolean equals(Object obj) {
+        super.equals(obj);
         if (this == obj) {
             return true;
         }

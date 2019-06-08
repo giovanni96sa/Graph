@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        invio = (InvioDati) new InvioDati(this).execute("http://172.19.21.202/DemoWebBeacon/caricaGrafo.php?piano=55");
+        invio = (InvioDati) new InvioDati(this).execute("http://192.168.1.174/DemoWebBeacon/caricaGrafo.php?piano=55");
 
         /*grafo = new SparseGraph<Nodo,String>();
         nodes[0] = new Nodo(20,20);
@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
             int destination = rn.nextInt(nodi.size() - 1) + 1;
             grafo = invio.getGrafo();
 
-
             ArrayList<Nodo> result = dijkstra.minPath(grafo, nodi.get(0), nodi.get(destination));
-            if (result != null) {
 
+            System.out.println(nodi.get(0)+"  " +nodi.get(destination));
+            if (result != null) {
                 Toast.makeText(this, "Cammino trovato!!", Toast.LENGTH_SHORT).show();
                 drawMinPath(result);
 
